@@ -4,15 +4,20 @@ This is a system for managing examinations with the ability to add,
 
 find and filter them as well as sending commands to print them.
 
+# Installation
+
+ * Copy the file configuration.xml from PROJECT/src/beci/pprot/server
+   to PROJECT/war and change it according to your settings.
+
 # Software used
+  
+ * Google Web Toolkit
 
  * JavaMail (Sun Microsystems, Inc. Binary Code License Agreement)
- see the [website](www.quik-j.com/licenses/Sun_JavaMail_License.html "Sun JavaMail Licence")
- for more details.
+ [details](www.quik-j.com/licenses/Sun_JavaMail_License.html "Sun JavaMail Licence")
  
  * SmartGWT (GNU Lesser GPL)
- see the [website](http://www.gnu.org/licenses/lgpl.html "LGPL")
- for more details.
+ [details](http://www.gnu.org/licenses/lgpl.html "LGPL")
 
 # License
 
