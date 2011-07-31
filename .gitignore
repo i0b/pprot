@@ -1,0 +1,15 @@
+.classpath
+.project
+.settings/
+war/WEB-INF/classes/**
+war/WEB-INF/lib/**
+war/WEB-INF/deploy/**
+war/pprot/**
+war/configuration.xml
+*.[oa]
+*~
+*.class
+build
+.svn
+www-test
+tomcat

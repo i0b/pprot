@@ -1,0 +1,39 @@
+package beci.pprot.client;
+
+import com.smartgwt.client.data.DataSource;
+import com.smartgwt.client.data.DataSourceField;
+import com.smartgwt.client.types.DSDataFormat;
+import com.smartgwt.client.types.FieldType;
+
+class ExaminationDS extends DataSource {
+	private static ExaminationDS instance = null;
+
+	public static ExaminationDS getInstance() {
+		if (instance == null) {
+			instance = new ExaminationDS("examinationDS_JSON");
+		}
+		return instance;
+	}
+
+	public ExaminationDS(String id) {
+		setID(id);
+		setDataFormat(DSDataFormat.JSON);
+		DataSourceField dateField = new DataSourceField("date",
+				FieldType.DATE, "Datum");
+		DataSourceField typeField = new DataSourceField("type",
+				FieldType.TEXT, "Typ");
+		typeField.setValueMap("Muendlich", "Klausur"); // TODO make this be automated
+		DataSourceField lecturerField = new DataSourceField("lecturer",
+				FieldType.ANY, "Dozent(en)");
+		DataSourceField coursesField = new DataSourceField("courses",
+				FieldType.ANY, "Vorlesung(en)");
+		DataSourceField solutionField = new DataSourceField("solution",
+				FieldType.BOOLEAN, "Lösung");
+		DataSourceField fileField = new DataSourceField("file",
+				FieldType.TEXT, "Dateiname");
+		setFields(dateField, typeField, lecturerField, coursesField,
+				solutionField, fileField);
+		setDataURL("ds/examinations.json"); // TODO save this in XML properties unfortunately 'properties' cannot be used in GWT
+											// so find an other way to make this work!
+	}
+}

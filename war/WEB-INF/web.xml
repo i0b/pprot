@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>PrintDataServiceImpl</servlet-name>
+		<servlet-class>beci.pprot.server.PrintDataServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>MailAccessServiceImpl</servlet-name>
+		<servlet-class>beci.pprot.server.MailAccessServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PrintDataServiceImpl</servlet-name>
+		<url-pattern>/pprot/printFiles</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>MailAccessServiceImpl</servlet-name>
+		<url-pattern>/pprot/mailAcess</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>beci.pprot.server.StartUp</listener-class>
+	</listener>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Pprot.html</welcome-file>
+	</welcome-file-list>
+
+
+</web-app>
