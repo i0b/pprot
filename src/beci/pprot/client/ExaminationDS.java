@@ -29,10 +29,10 @@ class ExaminationDS extends DataSource {
 				FieldType.ANY, "Vorlesung(en)");
 		DataSourceField solutionField = new DataSourceField("solution",
 				FieldType.BOOLEAN, "Lösung");
-		DataSourceField fileField = new DataSourceField("file",
-				FieldType.TEXT, "Dateiname");
+		//DataSourceField fileField = new DataSourceField("file",
+		//		FieldType.TEXT, "Dateiname");
 		setFields(dateField, typeField, lecturerField, coursesField,
-				solutionField, fileField);
+				solutionField);
 		setDataURL("ds/examinations.json"); // TODO save this in XML properties unfortunately 'properties' cannot be used in GWT
 											// so find an other way to make this work!
 	}

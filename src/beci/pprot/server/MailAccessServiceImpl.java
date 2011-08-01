@@ -2,25 +2,31 @@ package beci.pprot.server;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 
 import beci.pprot.client.MailAccessService;
-import beci.pprot.client.PrintDataService;
 import beci.pprot.shared.MailData;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class MailAccessServiceImpl extends RemoteServiceServlet implements
 		MailAccessService {
-	private Properties properties;
 	final static String CONFIGFILE = "configuration.xml";
+
+	private static Properties properties;
+	private static Message[] messages = null;
+	private static Folder mailFolder = null;
+	private static Session session = null;
+	private static Store store = null;
 
 	public MailAccessServiceImpl() {
 		try {
@@ -38,36 +44,75 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 		properties.loadFromXML(fis);
 	}
 
-	public MailData[] getMailData() {
-		MailData[] mailData = null;
-
+	private Boolean openConnection() {
 		try {
 			String host = properties.getProperty("mail.imap.host");
 			String username = properties.getProperty("mail.imap.user");
 			String password = properties.getProperty("mail.imap.password");
 
 			// Get session
-			Session session = Session.getDefaultInstance(properties, null);
+			session = Session.getDefaultInstance(properties, null);
 
 			System.out.println("IMAP session initialized.");
 			// Get the store
-			Store store = session.getStore("imap");
+			store = session.getStore("imap");
 
 			System.out.println("Connecting to " + host + "..");
 			store.connect(host, username, password);
 			System.out.println("Connected.");
 
 			// Get folder
-			Folder folder = store.getFolder("INBOX");
-			folder.open(Folder.READ_ONLY); // ?? for imap, too?
+			mailFolder = store.getFolder(properties
+					.getProperty("mail.imap.folder"));
+			mailFolder.open(Folder.READ_ONLY);
+		} catch (Exception e) {
+			System.out.println("Connection to mail server Failed.");
+			System.out.println(e.toString());
+			return false;
+		}
 
-			// Get directory
-			Message messages[] = folder.getMessages();
+		try {
+			messages = mailFolder.getMessages();
 
+			return true;
+
+		} catch (Exception e) {
+			System.out.println("Could not update messages from "
+					+ properties.getProperty("mail.imap.folder"));
+			System.out.println(e.toString());
+			return false;
+		}
+	}
+
+	private Boolean closeConnection() {
+		try {
+			if (mailFolder != null && mailFolder.isOpen())
+				mailFolder.close(false);
+			if (store != null && store.isConnected())
+				store.close();
+
+			return true;
+		} catch (Exception e) {
+			System.out
+					.println("Could not close the connection to mail server.");
+			System.out.println(e.toString());
+
+			return false;
+		}
+	}
+
+	public MailData[] getMailData() {
+		if (!openConnection())
+			return null;
+		// openConnection();
+
+		MailData[] mailData = null;
+
+		try {
 			mailData = new MailData[messages.length];
 
 			for (int i = 0, n = messages.length; i < n; i++) {
-				String attachment = new String();
+				ArrayList<String> attachment = new ArrayList<String>();
 
 				if (messages[i].isMimeType("multipart/*")) {
 					Multipart multipart = (Multipart) messages[i].getContent();
@@ -79,23 +124,53 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 						if (disp != null
 								&& disp.equalsIgnoreCase(Part.ATTACHMENT)
 								&& part.isMimeType("application/pdf"))
-							attachment = part.getFileName();
+							attachment.add(part.getFileName());
 					}
 				}
 
-				mailData[i] = new MailData(messages[i].getSentDate(), String
-						.valueOf(messages[i].getFrom()[0]), messages[i]
-						.getSubject(), attachment);
+				mailData[i] = new MailData(messages[i].getMessageNumber(),
+						messages[i].getSentDate(), String.valueOf(messages[i]
+								.getFrom()[0]), messages[i].getSubject(),
+						attachment);
 			}
-
-			// Close connection
-			folder.close(false);
-			store.close();
 		} catch (Exception e) {
-			System.out.println("Connection to mail server Failed");
+			System.out.println("Could not read the data from messages.");
 			System.out.println(e.toString());
 		}
 
+		closeConnection();
+
 		return mailData;
+	}
+	
+	public String getMailBody(int messageNumber) {
+		if (!openConnection())
+			return new String();
+
+		String body = new String();
+
+		try {
+			for (int i = 0, n = messages.length; i < n; i++) {
+				if (messages[i].getMessageNumber() == messageNumber) {
+					if (messages[i].isMimeType("multipart/*")) {
+						Part partZero = ((Multipart) messages[i].getContent())
+								.getBodyPart(0);
+
+						if (partZero.isMimeType("text/*"))
+							body = (String) partZero.getContent();
+					} else
+						body = (String) messages[i].getContent();
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("Could not read the body of the Mail number "
+					+ String.valueOf(messageNumber) + ".");
+			System.out.println(e.toString());
+		}
+
+		closeConnection();
+
+		return body.replaceAll("\n", "<br />");
 	}
 }

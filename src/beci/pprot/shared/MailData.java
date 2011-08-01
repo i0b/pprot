@@ -1,23 +1,34 @@
 package beci.pprot.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MailData implements Serializable {
+	private int messageNumber;
 	private Date composed;
 	private String sender;
 	private String subject;
-	private String attachment;
+	private ArrayList<String> attachment;
 	
 	public MailData() {}
 	
-	public MailData(Date composed, String sender, String subject, String attachment) {
+	public MailData(int messageNumber, Date composed, String sender, String subject, ArrayList<String> attachment) {
+		this.messageNumber = messageNumber;
 		this.composed = composed;
 		this.sender = sender;
 		this.subject = subject;
 		this.attachment = attachment;
 	}
 
+	public int getMessageNumber() {
+		return messageNumber;
+	}
+
+	public void setMessageNumber(int messageNumber) {
+		this.messageNumber = messageNumber;
+	}
+	
 	public Date getComposed() {
 		return composed;
 	}
@@ -42,11 +53,11 @@ public class MailData implements Serializable {
 		this.subject = subject;
 	}
 
-	public String getAttachment() {
+	public ArrayList<String> getAttachment() {
 		return attachment;
 	}
 
-	public void setAttachment(String attachment) {
+	public void setAttachment(ArrayList<String> attachment) {
 		this.attachment = attachment;
 	}
 

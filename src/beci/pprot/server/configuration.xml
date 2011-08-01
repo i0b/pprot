@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="examinationFile">ds/examinations.json</entry>
+	
+	<entry key="refreshInMin">10</entry>
+	<entry key="refreshCommand">~/src/rb/createJson.rb</entry>
+	
+	<entry key="printCommand">echo </entry>
+	
+	<entry key="mail.imap.user">s_user</entry>
+	<entry key="mail.imap.password">secret</entry>
+	<entry key="mail.imap.host">mail.uni-ulm.de</entry>
+	<entry key="mail.imap.port">143</entry>
+	<entry key="mail.imap.starttls.enable">true</entry>
+	<entry key="mail.imap.starttls.required">true</entry>
+	
+</properties>
