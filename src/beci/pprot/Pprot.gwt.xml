@@ -21,6 +21,8 @@
   <entry-point class='beci.pprot.client.Pprot'/>
   <inherits name="com.smartgwt.SmartGwt"/>
   <inherits name="com.smartgwt.tools.SmartGwtTools"/>
+  <inherits name="com.google.gwt.http.HTTP"/>
+  <inherits name='com.google.gwt.json.JSON'/>
 
   <entry-point class='beci.pprot.client.Pprot'/>
   

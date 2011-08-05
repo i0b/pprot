@@ -48,11 +48,11 @@ public class UpdateExaminationFile {
 		fis = new FileInputStream(CONFIGFILE);
 		properties.loadFromXML(fis);
 		
-		if (properties.getProperty("refreshInMin") != null)
-			REFRESH_IN_MIN = Integer.valueOf(properties.getProperty("refreshInMin"));
+		if (properties.getProperty("grid.source.refresh.interval.min") != null)
+			REFRESH_IN_MIN = Integer.valueOf(properties.getProperty("grid.source.refresh.interval.min"));
 		
-		if (properties.getProperty("refreshCommand") != null)
-			COMMAND = properties.getProperty("refreshCommand");
+		if (properties.getProperty("grid.source.refresh.command") != null)
+			COMMAND = properties.getProperty("grid.source.refresh.command");
 	}
 	
 	private void saveProperties() throws IOException {

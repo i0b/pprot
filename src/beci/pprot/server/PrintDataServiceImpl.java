@@ -29,7 +29,7 @@ public class PrintDataServiceImpl extends RemoteServiceServlet implements PrintD
 			SC.say(e.toString());
 		}
 		
-		if (properties.getProperty("printCommand") != null)
+		if (properties.getProperty("print.command") != null)
 			PRINTCOMMAND = properties.getProperty("printCommand");
 	}
 	

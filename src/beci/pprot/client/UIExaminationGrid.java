@@ -24,14 +24,14 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
-public class ExaminationGrid {
-	private static ExaminationGrid instance = null;
+public class UIExaminationGrid {
+	private static UIExaminationGrid instance = null;
 	private PrintDataServiceAsync fileListSvc = GWT.create(PrintDataService.class);
 	private VLayout mainLayout;
 
-	public static ExaminationGrid getInstance() {
+	public static UIExaminationGrid getInstance() {
 		if (instance == null)
-			instance = new ExaminationGrid();
+			instance = new UIExaminationGrid();
 		return instance;
 	}
 
@@ -39,7 +39,7 @@ public class ExaminationGrid {
 		return mainLayout;
 	}
 
-	public ExaminationGrid() {
+	public UIExaminationGrid() {
 		mainLayout = new VLayout();
 		final Label countSelected;
 
@@ -55,7 +55,7 @@ public class ExaminationGrid {
 		examinationGrid.setSortDirection(SortDirection.DESCENDING);
 		examinationGrid.setSelectionType(SelectionStyle.SIMPLE);
 		// examinationGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX);
-		examinationGrid.setDataSource(ExaminationDS.getInstance());
+		examinationGrid.setDataSource(UIExaminationGridDS.getInstance());
 		examinationGrid.setAutoFetchData(true);
 		examinationGrid.setShowEmptyMessage(true);
 		examinationGrid
@@ -110,7 +110,7 @@ public class ExaminationGrid {
 		// selectedExaminationGrid.setWidth100();
 		selectedExaminationGrid.setHeight("25%");
 		selectedExaminationGrid.setShowAllRecords(true);
-		selectedExaminationGrid.setDataSource(ExaminationDS.getInstance());
+		selectedExaminationGrid.setDataSource(UIExaminationGridDS.getInstance());
 		selectedExaminationGrid.setShowEmptyMessage(true);
 		selectedExaminationGrid
 				.setEmptyMessage("<br>zu druckende <b>Protokolle</b> auswählen");

@@ -5,17 +5,17 @@ import com.smartgwt.client.data.DataSourceField;
 import com.smartgwt.client.types.DSDataFormat;
 import com.smartgwt.client.types.FieldType;
 
-class ExaminationDS extends DataSource {
-	private static ExaminationDS instance = null;
+class UIExaminationGridDS extends DataSource {
+	private static UIExaminationGridDS instance = null;
 
-	public static ExaminationDS getInstance() {
+	public static UIExaminationGridDS getInstance() {
 		if (instance == null) {
-			instance = new ExaminationDS("examinationDS_JSON");
+			instance = new UIExaminationGridDS("examinationDS_JSON");
 		}
 		return instance;
 	}
 
-	public ExaminationDS(String id) {
+	public UIExaminationGridDS(String id) {
 		setID(id);
 		setDataFormat(DSDataFormat.JSON);
 		DataSourceField dateField = new DataSourceField("date",

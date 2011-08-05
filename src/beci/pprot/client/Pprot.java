@@ -19,7 +19,7 @@ public class Pprot implements EntryPoint {
 			}
 		});
 
-		//ExaminationGrid.getInstance().getMainLayout().draw();
-		ImportFromMail.getInstance().getMainLayout().draw();
+		//UIExaminationGrid.getInstance().getMainLayout().draw();
+		UIImportFromMail.getInstance().getMainLayout().draw();
 	}
 }

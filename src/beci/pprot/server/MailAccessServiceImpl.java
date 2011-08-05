@@ -45,6 +45,9 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 	}
 
 	private Boolean openConnection() {
+		if (store != null && store.isConnected() && mailFolder != null && mailFolder.isOpen())
+			return true;
+		
 		try {
 			String host = properties.getProperty("mail.imap.host");
 			String username = properties.getProperty("mail.imap.user");
@@ -73,7 +76,6 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 
 		try {
 			messages = mailFolder.getMessages();
-
 			return true;
 
 		} catch (Exception e) {
@@ -104,7 +106,6 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 	public MailData[] getMailData() {
 		if (!openConnection())
 			return null;
-		// openConnection();
 
 		MailData[] mailData = null;
 
@@ -143,7 +144,10 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 		return mailData;
 	}
 	
-	public String getMailBody(int messageNumber) {
+	public synchronized String getMailBody(int messageNumber) {
+		// Problem right now: the gui can open different messages shortly one after an other
+		// 					  which causes trouble because the 'getMailBody' method is still
+		// 					  finding the old message to display.
 		if (!openConnection())
 			return new String();
 
@@ -157,14 +161,14 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 								.getBodyPart(0);
 
 						if (partZero.isMimeType("text/*"))
-							body = (String) partZero.getContent();
+							body = (String)partZero.getContent();
 					} else
-						body = (String) messages[i].getContent();
+						body = (String)messages[i].getContent();
 				}
 			}
-
 		} catch (Exception e) {
-			System.out.println("Could not read the body of the Mail number "
+			// There are way to many exceptions thrown - 
+			System.out.println("Could not read the body from mail number "
 					+ String.valueOf(messageNumber) + ".");
 			System.out.println(e.toString());
 		}
