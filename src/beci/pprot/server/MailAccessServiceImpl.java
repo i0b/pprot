@@ -42,6 +42,7 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 		FileInputStream fis;
 		fis = new FileInputStream(CONFIGFILE);
 		properties.loadFromXML(fis);
+		fis.close();
 	}
 
 	private Boolean openConnection() {
