@@ -1,13 +1,10 @@
 package beci.pprot.server;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Folder;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
@@ -20,8 +17,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class MailAccessServiceImpl extends RemoteServiceServlet implements
 		MailAccessService {
-	final static String CONFIGFILE = "configuration.xml";
-
 	private static Properties properties;
 	private static Message[] messages = null;
 	private static Folder mailFolder = null;
@@ -29,19 +24,7 @@ public class MailAccessServiceImpl extends RemoteServiceServlet implements
 	private static Store store = null;
 
 	public MailAccessServiceImpl() {
-		try {
-			loadProperties();
-		} catch (IOException e) {
-			properties = System.getProperties();
-			e.printStackTrace();
-		}
-	}
-
-	private void loadProperties() throws IOException {
-		properties = new Properties();
-		FileInputStream fis;
-		fis = new FileInputStream(CONFIGFILE);
-		properties.loadFromXML(fis);
+		properties = Configuration.getInstance().getProperties();
 	}
 
 	private Boolean openConnection() {

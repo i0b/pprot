@@ -10,15 +10,11 @@
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  
-  <inherits name="com.smartgwt.SmartGwt"/>
-  <inherits name="com.smartgwt.tools.SmartGwtTools"/>
 
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
   
-  <entry-point class='beci.pprot.client.Pprot'/>
   <inherits name="com.smartgwt.SmartGwt"/>
   <inherits name="com.smartgwt.tools.SmartGwtTools"/>
   <inherits name="com.google.gwt.http.HTTP"/>

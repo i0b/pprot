@@ -1,17 +1,13 @@
 package beci.pprot.server;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Properties;
 
 import beci.pprot.client.PrintDataService;
 import beci.pprot.shared.PrintData;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.smartgwt.client.util.SC;
 
 public class PrintDataServiceImpl extends RemoteServiceServlet implements PrintDataService {
-	private final static String CONFIGFILE = "configuration.xml";
 	private static String PRINTCOMMAND = new String();
 	
 	public PrintDataServiceImpl() {
@@ -19,15 +15,7 @@ public class PrintDataServiceImpl extends RemoteServiceServlet implements PrintD
 	}
 	
 	private static void loadPrintCommand() {
-		Properties properties = new Properties();
-		FileInputStream fis;
-		
-		try {
-			fis = new FileInputStream(CONFIGFILE);
-			properties.loadFromXML(fis);
-		} catch (Exception e) {
-			SC.say(e.toString());
-		}
+		Properties properties = Configuration.getInstance().getProperties();
 		
 		if (properties.getProperty("print.command") != null)
 			PRINTCOMMAND = properties.getProperty("printCommand");

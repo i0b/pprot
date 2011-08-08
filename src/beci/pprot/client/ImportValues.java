@@ -11,7 +11,6 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.smartgwt.client.util.SC;
 
@@ -53,7 +52,7 @@ public class ImportValues {
 						if (gridData == null)
 							throw new JSONException();
 					} catch (JSONException e) {
-						//SC.say("Could not parse JSON");
+						SC.say("Could not parse JSON file from "+URL);
 						return;
 					}
 
@@ -71,8 +70,10 @@ public class ImportValues {
 						if ((jsLecturer = jsonValue.isArray()) == null)
 							continue;
 						else
-							for (int j=0; j<jsLecturer.size(); j++)
+							for (int j=0; j<jsLecturer.size(); j++){
 								lecturer.add(jsLecturer.get(j).toString());
+								SC.say(jsLecturer.get(j).toString());
+							}
 
 						if ((jsonValue = jsItem.get("courses")) == null)
 							continue;

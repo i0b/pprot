@@ -25,9 +25,6 @@ public class UpdateExaminationFile {
 	private static String COMMAND = new String();
 	
 	private Properties properties;
-	// This lies in PROJECT/war/configuration.xml
-	final static String CONFIGFILE = "configuration.xml";
-
 	
 	private final ScheduledExecutorService scheduler = Executors
 			.newScheduledThreadPool(1);
@@ -43,22 +40,13 @@ public class UpdateExaminationFile {
 	}
 
 	private void loadProperties() throws IOException {
-		properties = new Properties();
-		FileInputStream fis;
-		fis = new FileInputStream(CONFIGFILE);
-		properties.loadFromXML(fis);
+		properties = Configuration.getInstance().getProperties();
 		
 		if (properties.getProperty("grid.source.refresh.interval.min") != null)
 			REFRESH_IN_MIN = Integer.valueOf(properties.getProperty("grid.source.refresh.interval.min"));
 		
 		if (properties.getProperty("grid.source.refresh.command") != null)
 			COMMAND = properties.getProperty("grid.source.refresh.command");
-	}
-	
-	private void saveProperties() throws IOException {
-		FileOutputStream fos;
-		fos = new FileOutputStream(CONFIGFILE);
-		properties.storeToXML(fos, "ExamnData Configuration", "UTF-8");
 	}
 
 	public void refreshExaminationFile() {
